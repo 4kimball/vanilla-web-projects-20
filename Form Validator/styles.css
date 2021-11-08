@@ -30,15 +30,21 @@ form {
   margin-top: 0.5rem;
 }
 
+.input-form label {
+  color: #666666;
+}
 .input-form input {
   width: 100%;
   padding: 10px;
   border: 2px solid #d9d9d9;
   border-radius: 6px;
+  outline: none;
 }
 
 .input-form .error {
+  font-size: 13px;
   height: 20px;
+  color: red;
 }
 
 .submit-btn {
