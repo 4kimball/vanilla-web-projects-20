@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+section {
+    width: 100vw;
+    height: 100vh;
+    background-color: #004d99;
+
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-title {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-title > h1 {
+    margin-bottom: 1rem;
+}
+
+.hangman-and-wrong {
+    display: flex;
+    justify-content: space-between;
+}
+
+.letters .letter {
+    width: 45px;
+    height: 45px;
+    border-bottom: 2px solid white;
+}
