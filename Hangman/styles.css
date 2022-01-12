@@ -27,12 +27,26 @@ section {
 }
 
 .hangman-and-wrong {
+    margin-top: 5rem;
     display: flex;
     justify-content: space-between;
 }
 
+.hangman-and-wrong .wrong {
+    font-size: 24px;
+}
+
+.letters {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: space-around;
+}
 .letters .letter {
     width: 45px;
     height: 45px;
     border-bottom: 2px solid white;
+    font-size: 42px;
+    margin: .5rem;
+    display: flex;
+    justify-content: center;
 }
