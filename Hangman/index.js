@@ -29,7 +29,7 @@ function checkLetter(letter) {
         const wrongLetters = document.querySelector('.wrong-letters');
         const wrongLetter = document.createElement('p');
         wrongLetter.innerText = letter;
-        wrongLetters.appendChild(wrongLetter);
+        wrongLetters.appendChild(wrongLetter);``
     }
 }
 function initHangman() {
