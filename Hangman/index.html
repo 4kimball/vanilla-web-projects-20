@@ -5,27 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles.css">
-    <title>Hangman</title>
+    <title>kimmeh's Hangman</title>
 </head>
 <body>
-    <section>
-        <div class="main-title">
-            <h1>Hangman</h1>
-            <p>Find the hidden word - Enter a letter</p>
+    <div class="toast"><p class="toast-msg">실패했습니다. </p><button>again</button></div>
+    <h1 class="title">Hangman</h1>
+    <p>Find the hidden word - Enter a letter</p>
+    <div class="hangman-wrong-container">
+        <canvas></canvas>
+        <div class="wrong-letters-container">
+            <h2>wrong</h2>
+            <div class="wrong-letters"></div>
         </div>
+    </div>
 
-        <div class="hangman-and-wrong">
-            <canvas class="hangman-canvas"></canvas>
-            <div class="wrong">
-                <p>wrong</p>
-                <div class="wrong-letters"></div>
-            </div>
-        </div>
-
-        <div class="letters">
-            
-        </div>
-    </section>
+    <div class="words">
+        
+    </div>
     <script src="./index.js"></script>
 </body>
 </html>

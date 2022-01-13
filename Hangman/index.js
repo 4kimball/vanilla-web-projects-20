@@ -1,107 +1,164 @@
-const words = ['apple', 'banana', 'coconut', 'discord', 'electric', 'facebook',
-'google', 'hippopotamus', 'instagram', 'tesla']
+const words = ['apple', 'google', 'samsung', 'facebook', 'tesla', 'adidas', 'amazon', 'microsoft', 'nvidia', 'intel'];
+const wordsLen = words.length;
+const index = Math.floor(Math.random() * wordsLen);
+const word = words[index].split('');
+const inputLog = [];
+let chance = 0;
+const canvas = document.querySelector('canvas');
+let ctx = canvas.getContext('2d');
+let isSuccess = false;
 
-let canvas = document.querySelector(".hangman-canvas");
-let ctx = canvas.getContext("2d");
 
-const wordsLength = words.length;
-const wordsIndex = Math.floor(Math.random() * 10);
-const word = words[wordsIndex];
-const wordSize = word.length;
 
-makeLetterBox(wordSize);
-window.addEventListener('keydown', e => checkLetter(e.key));
+window.addEventListener('keydown', e => handleKeydown(e.key))
 
-function checkLetter(letter) {
-    const reg = /[a-zA-Z]/g;
-    if (!reg.test(letter)) return false;
+function checkPass() {
+    let letters = Array.from(document.querySelectorAll('.letter'));
+    for(let i=0; i<word.length; i++) {
+        if (letters[i].innerText === '') return false;
+        if (letters[i].innerText !== word[i]) return false;
+    }
+
+    handleToast('축하합니다! 성공입니다.')
+    return true
+}
+
+function handleToast(message) {
+    const toast = document.querySelector('.toast');
+    const toastMessage = document.querySelector('.toast .toast-msg');
+    const againBtn = document.querySelector('.toast button');
+    toastMessage.innerText = message;
+    toast.style.top = '150px';
     
+    againBtn.addEventListener('click', () => {
+        window.location.reload();
+    })
+}
+
+function handleKeydown(letter) {
+    const reg = /[a-zA-Z]/g;
+    if(!reg.test(letter) || chance >= 6) return false;
+    
+    
+    if(inputLog.includes(letter)) return false;
+    inputLog.push(letter);
     let flag = false;
-    const letters = Array.from(document.querySelectorAll('.letter'));
-    for(let i=0; i<wordSize; i++) {
+    let letters = Array.from(document.querySelectorAll('.letter'));
+    for(let i=0; i<word.length; i++) {
         if (word[i] === letter) {
             flag = true;
             letters[i].innerText = letter;
         }
     }
 
-    if (!flag) {
-        const wrongLetters = document.querySelector('.wrong-letters');
-        const wrongLetter = document.createElement('p');
-        wrongLetter.innerText = letter;
-        wrongLetters.appendChild(wrongLetter);``
+    isSuccess = checkPass();
+    if (isSuccess) return;
+    if(!flag) {
+        const wrongs = document.querySelector('.wrong-letters');
+        const p = document.createElement('p')
+        p.innerText = letter;
+        wrongs.appendChild(p);
+        ++chance;
+        handleInputWrong(chance);
+    }
+    if(chance >= 6) {
+        handleToast('실패했습니다.');
+        return false;
+    }
+}
+function setLetterBar(size) {
+    const container = document.querySelector('.words');
+    for(let i=0; i<size; i++) {
+        let letter = document.createElement('div');
+        letter.className = 'letter';
+        container.appendChild(letter);
     }
 }
 function initHangman() {
     canvas.width = 320;
     canvas.height = 240;
+    
+
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 3;
+
     ctx.beginPath();
-    ctx.moveTo(0, 230);
-    ctx.lineTo(100, 230);
-    ctx.moveTo(49, 230);
-    ctx.lineTo(49, 30);
-    ctx.moveTo(47.5, 30);
-    ctx.lineTo(150, 30);
-    ctx.moveTo(150, 27.5);
-    ctx.lineTo(150, 60);
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = "#fff";
+    ctx.moveTo(20, 220);
+    ctx.lineTo(120, 220);
+    ctx.moveTo(70, 220);
+    ctx.lineTo(70, 10);
+    ctx.moveTo(68.5, 10);
+    ctx.lineTo(140, 10);
+    ctx.moveTo(140, 8.5);
+    ctx.lineTo(140, 30);
     ctx.stroke();
 }
 
-function strokeFace() {
-    ctx.beginPath();
-    ctx.arc(150, 85, 25, 0, 360 * Math.PI / 180, false);
-    ctx.stroke();
-}
-
-function storkeBody() {
-    ctx.beginPath();
-    ctx.moveTo(150, 110);
-    ctx.lineTo(150, 180);
-    ctx.stroke();
-}
-
-function strokeLeftArm() {
-    ctx.beginPath();
-    ctx.moveTo(150, 130);
-    ctx.lineTo(115, 115);
-    ctx.stroke();
-}
-
-function strokeRightArm() {
-    ctx.beginPath();
-    ctx.moveTo(150, 130);
-    ctx.lineTo(185, 115);
-    ctx.stroke();
-}
-
-function strokeLeftLeg() {
-    ctx.beginPath();
-    ctx.moveTo(150, 178);
-    ctx.lineTo(115, 205);
-    ctx.stroke();
-}
-
-function strokeRightLeg() {
-    ctx.beginPath();
-    ctx.moveTo(150, 178);
-    ctx.lineTo(185, 205);
-    ctx.stroke();
-}
-
-function makeLetterBox(size) { 
-    const letters = document.querySelector('.letters');
-    for(let i=0; i < size; i++) {
-        let letter = document.createElement('div');
-        letter.className = 'letter';
-        letters.appendChild(letter);
+function handleInputWrong(chance) {
+    switch(chance) {
+        case 1:
+            drawFace();
+            break;
+        case 2:
+            drawBody();
+            break;
+        case 3:
+            drawLeftArm();
+            break;
+        case 4:
+            drawRightArm();
+            break;
+        case 5:
+            drawLeftLeg();
+            break;
+        case 6:
+            drawRightLeg();
+            break;
+        default:
+            return null;
     }
 }
+
+function drawFace() {
+    ctx.beginPath();
+    ctx.arc(140, 55, 25, 0, 360 * Math.PI / 180, false);
+    ctx.stroke();
+}
+
+function drawBody() {
+    ctx.beginPath();
+    ctx.moveTo(140, 80);
+    ctx.lineTo(140, 140);
+    ctx.stroke();
+}
+
+function drawLeftArm() {
+    ctx.beginPath();
+    ctx.moveTo(140, 100);
+    ctx.lineTo(105, 80);
+    ctx.stroke();
+}
+
+function drawRightArm() {
+    ctx.beginPath();
+    ctx.moveTo(140, 100);
+    ctx.lineTo(175, 80);
+    ctx.stroke();
+}
+
+function drawLeftLeg() {
+    ctx.beginPath();
+    ctx.moveTo(140, 140);
+    ctx.lineTo(105, 170);
+    ctx.stroke();
+}
+
+function drawRightLeg() {
+    ctx.beginPath();
+    ctx.moveTo(140, 140);
+    ctx.lineTo(175, 170);
+    ctx.stroke();
+}
 initHangman();
-strokeFace();
-storkeBody();
-strokeLeftArm();
-strokeRightArm();
-strokeLeftLeg();
-strokeRightLeg();
+
+setLetterBar(word.length);
